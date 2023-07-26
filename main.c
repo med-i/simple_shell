@@ -53,6 +53,7 @@ void initialize_session(Session **session)
  */
 int main(int argc, char **argv)
 {
+	int last_status = 0;
 	Session *session;
 
 	initialize_session(&session);
@@ -76,8 +77,9 @@ int main(int argc, char **argv)
 	if (session->source->is_interactive)
 		write(STDOUT_FILENO, "\n", 1);
 
+	last_status = session->last_status;
 	close_source(argc, session);
 	free(session);
 
-	return (session->last_status);
+	return (last_status);
 }
