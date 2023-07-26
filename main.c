@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 	session->program_name = argv[0];
 	session->source = get_source(argc, argv);
 	if (!session->source)
-		exit(2);
+		exit(127);
 
 	while (read_input(&session) != NULL)
 	{
