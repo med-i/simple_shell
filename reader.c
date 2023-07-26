@@ -38,12 +38,66 @@ Source *get_source(int argc, char **argv)
 }
 
 /**
- * _getline - Get line
- * @lineptr: Line pointer
- * @n: Size
+ * read_input - Read input from a shell session
+ * @session: Double pointer to the current shell session
+ *
+ * Return: Pointer to the input string
+ */
+char *read_input(Session **session)
+{
+	size_t len = 0;
+	ssize_t read;
+
+	if ((*session)->source->is_interactive)
+		write(STDOUT_FILENO, PROMPT, 2);
+
+	read = _getline(&((*session)->line), &len, (*session)->source->fd);
+	if (read <= 0)
+		return (NULL);
+
+	return ((*session)->line);
+}
+
+/**
+ * read_from_fd - Read from file descriptor into buffer
+ * @buffer: Buffer to read into
+ * @fd: File descriptor to read from
+ *
+ * Return: Number of bytes read, or -1 on error
+ */
+static ssize_t read_from_fd(char *buffer, int fd)
+{
+	ssize_t nread;
+
+	nread = read(fd, buffer, BUFFER_SIZE);
+	return (nread);
+}
+/**
+ * allocate_and_copy - Allocate memory and copy line into it
+ * @lineptr: Pointer to the line buffer
+ * @start: Pointer to the start of the line
+ * @length: Length of the line
+ *
+ * Return: Length of the line, or -1 on error
+ */
+static ssize_t allocate_and_copy(char **lineptr, char *start, ssize_t length)
+{
+	*lineptr = malloc(length + 1);
+
+	if (!*lineptr)
+		return (-1);
+	strncpy(*lineptr, start, length);
+	(*lineptr)[length] = '\0';
+	return (length);
+}
+
+/**
+ * _getline - Get a line from a file
+ * @lineptr: Pointer to the line buffer
+ * @n: Size of the line buffer
  * @fd: File descriptor
  *
- * Return: Number of characters read
+ * Return: The number of characters read
  */
 ssize_t _getline(char **lineptr, size_t *n, int fd)
 {
@@ -61,7 +115,7 @@ ssize_t _getline(char **lineptr, size_t *n, int fd)
 		if (position >= nread)
 		{
 			position = 0;
-			nread = read(fd, buffer, BUFFER_SIZE);
+			nread = read_from_fd(buffer, fd);
 			if (nread <= 0)
 				return (nread);
 		}
@@ -81,34 +135,8 @@ ssize_t _getline(char **lineptr, size_t *n, int fd)
 				else if (i == nread - 1)
 					position = 0;
 
-				*lineptr = malloc(length + 1);
-				if (!*lineptr)
-					return (-1);
-				strncpy(*lineptr, start, length);
-				(*lineptr)[length] = '\0';
-				return (length);
+				return (allocate_and_copy(lineptr, start, length));
 			}
 		}
 	}
-}
-
-/**
- * read_input - Read input from a shell session
- * @session: Double pointer to the current shell session
- *
- * Return: Pointer to the input string
- */
-char *read_input(Session **session)
-{
-	size_t len = 0;
-	ssize_t read;
-
-	if ((*session)->source->is_interactive)
-		write(STDOUT_FILENO, PROMPT, 2);
-
-	read = _getline(&((*session)->line), &len, (*session)->source->fd);
-	if (read <= 0)
-		return (NULL);
-
-	return ((*session)->line);
 }
