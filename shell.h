@@ -83,6 +83,7 @@ extern BuiltIn built_ins[];
 
 /* reader */
 Source *get_source(int argc, char **argv);
+void print_no_file(char *program_name, char *filename);
 char *read_input(Session **session);
 ssize_t _getline(char **lineptr, size_t *n, int fd);
 
@@ -125,7 +126,6 @@ char *_strchr(char *s, char c);
 char *_strcat(char *dest, char *src);
 int _isspace(char c);
 int _atoi(char *s);
-void *_realloc(void *ptr, size_t size);
 char *_getenv(char *name);
 
 #endif

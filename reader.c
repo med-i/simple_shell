@@ -22,7 +22,7 @@ Source *get_source(int argc, char **argv)
 		source->fd = open(argv[1], O_RDONLY);
 		if (source->fd == -1)
 		{
-			perror("Failed to open file");
+			print_no_file(argv[0], argv[1]);
 			free(source);
 			return (NULL);
 		}
@@ -35,6 +35,20 @@ Source *get_source(int argc, char **argv)
 	}
 
 	return (source);
+}
+
+/**
+ * print_no_file - Prints error message for file not found.
+ * @program_name: Calling program name.
+ * @filename: The file name.
+*/
+void print_no_file(char *program_name, char *filename)
+{
+	write(STDERR_FILENO, program_name, _strlen(program_name));
+	write(STDERR_FILENO, ": 0: cannot open ", 17);
+	write(STDERR_FILENO, filename, _strlen(filename));
+	write(STDERR_FILENO, ": No such file", 14);
+	write(STDERR_FILENO, "\n", 1);
 }
 
 /**
