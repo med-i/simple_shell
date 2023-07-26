@@ -24,7 +24,7 @@ Source *get_source(int argc, char **argv)
 		{
 			print_no_file(argv[0], argv[1]);
 			free(source);
-			return (NULL);
+			exit(2);
 		}
 		source->is_interactive = false;
 	}
@@ -41,7 +41,7 @@ Source *get_source(int argc, char **argv)
  * print_no_file - Prints error message for file not found.
  * @program_name: Calling program name.
  * @filename: The file name.
-*/
+ */
 void print_no_file(char *program_name, char *filename)
 {
 	write(STDERR_FILENO, program_name, _strlen(program_name));

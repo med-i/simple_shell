@@ -79,7 +79,10 @@ int execute_single_command(Command *command, char *path)
 	else
 	{
 		wait(&status);
-		status = status >> 8;
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+		else
+			status = EXIT_FAILURE;
 
 		free(path);
 	}
