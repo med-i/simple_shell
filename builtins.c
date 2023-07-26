@@ -1,8 +1,8 @@
 #include "shell.h"
 
 BuiltIn built_ins[] = {
-    {"exit", exit_shell},
-    {NULL, NULL}};
+{"exit", exit_shell},
+{NULL, NULL}};
 
 /**
  * exit_shell - Exit the shell
@@ -26,6 +26,7 @@ int exit_shell(char **args, Session *session)
 
 	close_source(2, session);
 	free_resources(session);
+	free(session);
 
 	exit(status);
 }

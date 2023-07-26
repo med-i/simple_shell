@@ -34,7 +34,7 @@ int execute_commands(Session *session)
 		else
 			status = handle_not_found(session->program_name, commands[i]->path);
 
-	next_command:
+next_command:
 		if (commands[i]->separator)
 		{
 			if ((!_strcmp(commands[i]->separator, "&&") && status != 0) ||

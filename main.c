@@ -21,6 +21,30 @@ bool is_empty_line(Session *session)
 }
 
 /**
+ * initialize_session - Initialize the session object
+ * @session: Double pointer to the session object
+ *
+ * This function initializes the session object by allocating memory
+ * for it and setting its initial state.
+ */
+void initialize_session(Session **session)
+{
+	(*session) = malloc(sizeof(Session));
+	if (!session)
+	{
+		perror("malloc");
+	}
+
+	(*session)->program_name = NULL;
+	(*session)->source = NULL;
+	(*session)->line = NULL;
+	(*session)->cmd_strs = NULL;
+	(*session)->tokens = NULL;
+	(*session)->commands = NULL;
+	(*session)->last_status = 0;
+}
+
+/**
  * main - Entry point
  * @argc: Argument count
  * @argv: Argument vector
@@ -29,8 +53,9 @@ bool is_empty_line(Session *session)
  */
 int main(int argc, char **argv)
 {
-	Session *session = malloc(sizeof(Session));
+	Session *session;
 
+	initialize_session(&session);
 	session->program_name = argv[0];
 	session->source = get_source(argc, argv);
 
@@ -52,6 +77,7 @@ int main(int argc, char **argv)
 		write(STDOUT_FILENO, "\n", 1);
 
 	close_source(argc, session);
+	free(session);
 
 	return (session->last_status);
 }

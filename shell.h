@@ -19,11 +19,13 @@
 /**
  * struct Source - Describes the source of shell commands
  * @fd: File descriptor of the source
- * @is_interactive: Whether the source is interactive
+ * @stream: The file stream of the input source
+ * @is_interactive: Boolean flag indicating if the session is interactive
  */
 typedef struct Source
 {
 	int fd;
+	FILE *stream;
 	bool is_interactive;
 } Source;
 
