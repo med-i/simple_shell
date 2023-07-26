@@ -13,7 +13,7 @@ bool is_empty_line(Session *session)
 
 	for (i = 0; line[i]; i++)
 	{
-		if (!isspace(line[i]))
+		if (!_isspace(line[i]))
 			return (false);
 	}
 

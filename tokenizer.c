@@ -16,15 +16,15 @@ Token *separate_commands(Session *session)
 	while (*end != '\0')
 	{
 		if (*end == ';' ||
-		    (strncmp(end, "&&", 2) == 0) || (strncmp(end, "||", 2) == 0))
+		    (_strncmp(end, "&&", 2) == 0) || (_strncmp(end, "||", 2) == 0))
 		{
 			end += *end == ';' ? 1 : 2;
 			len = end - start;
 			command = malloc(len + 1);
-			strncpy(command, start, len);
+			_strncpy(command, start, len);
 			command[len] = '\0';
 
-			commands = realloc(commands, (i + 2) * sizeof(Token));
+			commands = _realloc(commands, (i + 2) * sizeof(Token));
 			commands[i++] = command;
 
 			start = end;
@@ -35,8 +35,8 @@ Token *separate_commands(Session *session)
 
 	if (start != end)
 	{
-		command = strdup(start);
-		commands = realloc(commands, (i + 2) * sizeof(char *));
+		command = _strdup(start);
+		commands = _realloc(commands, (i + 2) * sizeof(char *));
 
 		commands[i++] = command;
 	}
@@ -63,7 +63,7 @@ Token **tokenize_commands(Session *session)
 	for (i = 0; commands[i]; i++)
 	{
 		tokens = tokenize_single_command(commands[i]);
-		tokens_array = realloc(tokens_array, (i + 2) * sizeof(Token *));
+		tokens_array = _realloc(tokens_array, (i + 2) * sizeof(Token *));
 		tokens_array[i] = tokens;
 	}
 
@@ -87,7 +87,7 @@ Token *tokenize_single_command(char *command)
 	token = _strtok(command, DELIMITERS);
 	while (token)
 	{
-		tokens = realloc(tokens, (i + 2) * sizeof(Token));
+		tokens = _realloc(tokens, (i + 2) * sizeof(Token));
 		tokens[i++] = token;
 		token = _strtok(NULL, DELIMITERS);
 	}
@@ -124,7 +124,7 @@ void add_space(char **command)
 
 	for (i = 0; separators[i]; i++)
 	{
-		sep_pos = strstr(*command, separators[i]);
+		sep_pos = _strstr(*command, separators[i]);
 		if (sep_pos)
 		{
 			separator = separators[i];
@@ -139,17 +139,17 @@ void add_space(char **command)
 
 	if (cmd_len > 0 && (*command)[cmd_len - 1] != ' ')
 	{
-		new_command = malloc((strlen(*command) + 2) * sizeof(char));
+		new_command = malloc((_strlen(*command) + 2) * sizeof(char));
 		if (!new_command)
 		{
 			perror("Failed to allocate memory");
 			exit(EXIT_FAILURE);
 		}
 
-		strncpy(new_command, *command, cmd_len);
+		_strncpy(new_command, *command, cmd_len);
 		new_command[cmd_len] = '\0';
-		strcat(new_command, " ");
-		strcat(new_command, separator);
+		_strcat(new_command, " ");
+		_strcat(new_command, separator);
 		free(*command);
 		*command = new_command;
 	}

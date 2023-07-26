@@ -86,7 +86,7 @@ static ssize_t allocate_and_copy(char **lineptr, char *start, ssize_t length)
 
 	if (!*lineptr)
 		return (-1);
-	strncpy(*lineptr, start, length);
+	_strncpy(*lineptr, start, length);
 	(*lineptr)[length] = '\0';
 	return (length);
 }

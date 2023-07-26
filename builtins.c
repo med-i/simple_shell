@@ -1,8 +1,8 @@
 #include "shell.h"
 
 BuiltIn built_ins[] = {
-{"exit", exit_shell},
-{NULL, NULL}};
+    {"exit", exit_shell},
+    {NULL, NULL}};
 
 /**
  * exit_shell - Exit the shell
@@ -18,9 +18,9 @@ int exit_shell(char **args, Session *session)
 
 	if (args[1])
 	{
-		status = atoi(args[1]);
+		status = _atoi(args[1]);
 
-		if ((status == 0 && strcmp(args[1], "0")) != 0 || status < 0)
+		if ((status == 0 && _strcmp(args[1], "0")) != 0 || status < 0)
 			status = handle_illegal_code(p_name, args[1]);
 	}
 
@@ -39,9 +39,9 @@ int exit_shell(char **args, Session *session)
  */
 int handle_illegal_code(char *program_name, char *arg)
 {
-	write(STDERR_FILENO, program_name, strlen(program_name));
+	write(STDERR_FILENO, program_name, _strlen(program_name));
 	write(STDERR_FILENO, ": 1: exit: Illegal number: ", 27);
-	write(STDERR_FILENO, arg, strlen(arg));
+	write(STDERR_FILENO, arg, _strlen(arg));
 	write(STDERR_FILENO, "\n", 1);
 
 	return (2);

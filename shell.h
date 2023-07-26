@@ -114,5 +114,16 @@ void close_source(int argc, Session *session);
 
 /* utils */
 char *_strtok(char *str, const char *delim);
+int _strlen(char *s);
+char *_strcpy(char *dest, char *src);
+char *_strncpy(char *dest, char *src, int n);
+char *_strdup(char *str);
+int _strcmp(char *s1, char *s2);
+int _strncmp(char *s1, char *s2, int n);
+char *_strstr(char *haystack, char *needle);
+char *_strcat(char *dest, char *src);
+int _isspace(char c);
+int _atoi(char *s);
+void *_realloc(void *ptr, size_t size);
 
 #endif

@@ -17,7 +17,7 @@ int execute_commands(Session *session)
 	{
 		for (j = 0; built_ins[j].command; j++)
 		{
-			if (strcmp(commands[i]->argv[0], built_ins[j].command) == 0)
+			if (_strcmp(commands[i]->argv[0], built_ins[j].command) == 0)
 			{
 				status = built_ins[j].func(commands[i]->argv, session);
 				goto next_command;
@@ -27,18 +27,18 @@ int execute_commands(Session *session)
 		if (access(commands[i]->path, X_OK))
 			path = get_filepath(commands[i]->path);
 		else
-			path = strdup(commands[i]->path);
+			path = _strdup(commands[i]->path);
 
 		if (path)
 			status = execute_single_command(commands[i], path);
 		else
 			status = handle_not_found(session->program_name, commands[i]->path);
 
-next_command:
+	next_command:
 		if (commands[i]->separator)
 		{
-			if ((!strcmp(commands[i]->separator, "&&") && status != 0) ||
-			    (!strcmp(commands[i]->separator, "||") && status == 0))
+			if ((!_strcmp(commands[i]->separator, "&&") && status != 0) ||
+			    (!_strcmp(commands[i]->separator, "||") && status == 0))
 				i++;
 		}
 	}
@@ -102,17 +102,17 @@ char *get_filepath(char *command)
 	if (!path)
 		return (NULL);
 
-	path_copy = strdup(path);
+	path_copy = _strdup(path);
 	dir = _strtok(path_copy, ":");
 	while (dir)
 	{
-		strcpy(tmp_path, dir);
-		strcat(tmp_path, "/");
-		strcat(tmp_path, command);
+		_strcpy(tmp_path, dir);
+		_strcat(tmp_path, "/");
+		_strcat(tmp_path, command);
 
 		if (access(tmp_path, X_OK) == 0)
 		{
-			file_path = strdup(tmp_path);
+			file_path = _strdup(tmp_path);
 			free(path_copy);
 			return (file_path);
 		}
@@ -133,9 +133,9 @@ char *get_filepath(char *command)
  */
 int handle_not_found(char *program_name, char *path)
 {
-	write(STDERR_FILENO, program_name, strlen(program_name));
+	write(STDERR_FILENO, program_name, _strlen(program_name));
 	write(STDERR_FILENO, ": 1: ", 5);
-	write(STDERR_FILENO, path, strlen(path));
+	write(STDERR_FILENO, path, _strlen(path));
 	write(STDERR_FILENO, ": not found\n", 12);
 
 	return (127);

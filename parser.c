@@ -22,7 +22,7 @@ Command **parse_commands(Session *session)
 			return (NULL);
 		}
 
-		commands = realloc(commands, (i + 2) * sizeof(Command *));
+		commands = _realloc(commands, (i + 2) * sizeof(Command *));
 		if (!commands)
 		{
 			perror("Failed to allocate memory");
@@ -60,17 +60,17 @@ Command *parse_single_command(Token *token)
 
 	for (i = 0; token[i]; i++)
 	{
-		if (!strcmp(token[i], "#"))
+		if (!_strcmp(token[i], "#"))
 			break;
-		else if (!strcmp(token[i], ";") ||
-			 !strcmp(token[i], "&&") || !strcmp(token[i], "||"))
+		else if (!_strcmp(token[i], ";") ||
+			 !_strcmp(token[i], "&&") || !_strcmp(token[i], "||"))
 			command->separator = token[i];
 		else
 		{
 			if (argv_index == 0)
 				command->path = token[i];
 
-			command->argv = realloc(command->argv, (argv_index + 2) * sizeof(char *));
+			command->argv = _realloc(command->argv, (argv_index + 2) * sizeof(char *));
 			if (!command->argv)
 			{
 				perror("Failed to allocate memory");
