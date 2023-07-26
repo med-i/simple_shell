@@ -1,0 +1,7 @@
+./TEST_SUITE/checker.bash ./hsh ./TEST_SUITE/1.Simple_shell_0.1/bin_ls.bash
+./TEST_SUITE/checker.bash ./hsh ./TEST_SUITE/1.Simple_shell_0.1/bin_ls_3_times.bash
+./TEST_SUITE/checker.bash ./hsh ./TEST_SUITE/1.Simple_shell_0.1/bin_ls_spaces.bash
+./TEST_SUITE/checker.bash ./hsh ./TEST_SUITE/1.Simple_shell_0.1/empty_input_large.bash
+./TEST_SUITE/checker.bash ./hsh ./TEST_SUITE/1.Simple_shell_0.1/empty_input_medium.bash
+./TEST_SUITE/checker.bash ./hsh ./TEST_SUITE/1.Simple_shell_0.1/empty_input_small.bash
+./TEST_SUITE/checker.bash ./hsh ./TEST_SUITE/1.Simple_shell_0.1/ls_in_current_dir.bash

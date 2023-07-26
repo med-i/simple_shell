@@ -34,7 +34,7 @@ int execute_commands(Session *session)
 		else
 			status = handle_not_found(session->program_name, commands[i]->path);
 
-next_command:
+	next_command:
 		if (commands[i]->separator)
 		{
 			if ((!_strcmp(commands[i]->separator, "&&") && status != 0) ||
@@ -95,14 +95,20 @@ int execute_single_command(Command *command, char *path)
  */
 char *get_filepath(char *command)
 {
-	char *path, *dir, *file_path, *path_copy;
+	char *path, *dir, *file_path = NULL, *path_copy;
 	char tmp_path[PATH_MAX + 1];
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 	if (!path)
-		return (NULL);
+		return NULL;
 
 	path_copy = _strdup(path);
+	if (!path_copy)
+	{
+		free(path);
+		return NULL;
+	}
+
 	dir = _strtok(path_copy, ":");
 	while (dir)
 	{
@@ -113,15 +119,15 @@ char *get_filepath(char *command)
 		if (access(tmp_path, X_OK) == 0)
 		{
 			file_path = _strdup(tmp_path);
-			free(path_copy);
-			return (file_path);
+			break;
 		}
 
 		dir = _strtok(NULL, ":");
 	}
 
 	free(path_copy);
-	return (NULL);
+	free(path);
+	return file_path;
 }
 
 /**

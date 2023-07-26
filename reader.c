@@ -38,8 +38,8 @@ Source *get_source(int argc, char **argv)
 	if (!source->stream)
 	{
 		close(source->fd);
-		perror("fdopen");
 		free(source);
+		perror("fdopen");
 		return (NULL);
 	}
 

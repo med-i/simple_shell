@@ -71,3 +71,47 @@ int _strncmp(char *s1, char *s2, int n)
 	}
 	return (0);
 }
+
+/**
+ * _getenv - Get environment variable
+ * @name: Name of environment variable
+ *
+ * Return: Pointer to environment variable
+ */
+char *_getenv(char *name)
+{
+	char **env;
+	char *tmp, *var, *value;
+
+	if (!name || !*name)
+		return (NULL);
+
+	for (env = environ; *env; ++env)
+	{
+		tmp = _strdup(*env);
+		if (!tmp)
+			return (NULL);
+
+		var = _strtok(tmp, "=");
+		if (!var)
+		{
+			free(tmp);
+			continue;
+		}
+
+		if (_strcmp(var, name) == 0)
+		{
+			value = _strtok(NULL, "=");
+			if (value)
+			{
+				var = _strdup(value);
+				free(tmp);
+				return (var);
+			}
+		}
+
+		free(tmp);
+	}
+
+	return (NULL);
+}

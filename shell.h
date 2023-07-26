@@ -127,5 +127,6 @@ char *_strcat(char *dest, char *src);
 int _isspace(char c);
 int _atoi(char *s);
 void *_realloc(void *ptr, size_t size);
+char *_getenv(char *name);
 
 #endif
