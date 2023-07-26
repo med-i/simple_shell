@@ -12,6 +12,7 @@ int execute_commands(Session *session)
 	char *path = NULL;
 	int status;
 	size_t i, j;
+	BuiltIn *built_ins = get_builtins();
 
 	for (i = 0; commands[i]; ++i)
 	{

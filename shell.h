@@ -104,6 +104,7 @@ char *get_filepath(char *command);
 int handle_not_found(char *program_name, char *path);
 
 /* builtins */
+BuiltIn *get_builtins(void);
 int exit_shell(char **args, Session *session);
 int handle_illegal_code(char *program_name, char *arg);
 

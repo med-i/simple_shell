@@ -1,9 +1,5 @@
 #include "shell.h"
 
-BuiltIn built_ins[] = {
-{"exit", exit_shell},
-{NULL, NULL}};
-
 /**
  * exit_shell - Exit the shell
  * @args: Arguments passed to exit
@@ -46,4 +42,18 @@ int handle_illegal_code(char *program_name, char *arg)
 	write(STDERR_FILENO, "\n", 1);
 
 	return (2);
+}
+
+/**
+ * get_builtins - Return an array of built-in commands.
+ *
+ * Return: Pointer to an array of BuiltIn structs.
+ */
+BuiltIn *get_builtins(void)
+{
+	static BuiltIn builtins[] = {
+	    {"exit", exit_shell},
+	    {NULL, NULL}};
+
+	return (builtins);
 }

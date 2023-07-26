@@ -24,7 +24,7 @@ Token *separate_commands(Session *session)
 			_strncpy(command, start, len);
 			command[len] = '\0';
 
-			commands = _realloc(commands, (i + 2) * sizeof(Token));
+			commands = realloc(commands, (i + 2) * sizeof(Token));
 			commands[i++] = command;
 
 			start = end;
@@ -36,7 +36,7 @@ Token *separate_commands(Session *session)
 	if (start != end)
 	{
 		command = _strdup(start);
-		commands = _realloc(commands, (i + 2) * sizeof(char *));
+		commands = realloc(commands, (i + 2) * sizeof(char *));
 
 		commands[i++] = command;
 	}
@@ -63,7 +63,7 @@ Token **tokenize_commands(Session *session)
 	for (i = 0; commands[i]; i++)
 	{
 		tokens = tokenize_single_command(commands[i]);
-		tokens_array = _realloc(tokens_array, (i + 2) * sizeof(Token *));
+		tokens_array = realloc(tokens_array, (i + 2) * sizeof(Token *));
 		tokens_array[i] = tokens;
 	}
 
@@ -87,7 +87,7 @@ Token *tokenize_single_command(char *command)
 	token = _strtok(command, DELIMITERS);
 	while (token)
 	{
-		tokens = _realloc(tokens, (i + 2) * sizeof(Token));
+		tokens = realloc(tokens, (i + 2) * sizeof(Token));
 		tokens[i++] = token;
 		token = _strtok(NULL, DELIMITERS);
 	}
