@@ -21,6 +21,19 @@ bool is_empty_line(Session *session)
 }
 
 /**
+ * is_comment - Checks if the start of a line is a comment
+ * @session: The current shell session
+ *
+ * Return: true if the line is a comment, false otherwise
+ */
+bool is_comment(Session *session)
+{
+	char *line = session->line;
+
+	return (*line == '#');
+}
+
+/**
  * initialize_session - Initialize the session object
  * @session: Double pointer to the session object
  *
@@ -30,10 +43,8 @@ bool is_empty_line(Session *session)
 void initialize_session(Session **session)
 {
 	(*session) = malloc(sizeof(Session));
-	if (!session)
-	{
+	if (!*session)
 		perror("malloc");
-	}
 
 	(*session)->program_name = NULL;
 	(*session)->source = NULL;
@@ -62,7 +73,7 @@ int main(int argc, char **argv)
 
 	while (read_input(&session) != NULL)
 	{
-		if (is_empty_line(session))
+		if (is_empty_line(session) || is_comment(session))
 			continue;
 
 		session->cmd_strs = separate_commands(session);

@@ -81,6 +81,10 @@ typedef struct BuiltIn
 extern char **environ;
 extern BuiltIn built_ins[];
 
+/* main */
+bool is_empty_line(Session *session);
+bool is_comment(Session *session);
+
 /* reader */
 Source *get_source(int argc, char **argv);
 void print_no_file(char *program_name, char *filename);
