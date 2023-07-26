@@ -9,7 +9,7 @@
  * Return: A pointer to the next token,
  * or NULL if there are no more tokens
  */
-char *_strtok(char *str, const char *delim)
+char *_strtok(char *str, char *delim)
 {
 	static char *ptr;
 	char *token;
@@ -20,14 +20,14 @@ char *_strtok(char *str, const char *delim)
 	else if (!ptr || !delim || !*delim)
 		return (NULL);
 
-	while (*ptr && strchr(delim, *ptr))
+	while (*ptr && _strchr(delim, *ptr))
 		ptr++;
 
 	if (!*ptr)
 		return (NULL);
 
 	token = ptr;
-	while (*ptr && !strchr(delim, *ptr))
+	while (*ptr && !_strchr(delim, *ptr))
 		ptr++;
 
 	if (*ptr)

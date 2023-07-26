@@ -143,7 +143,7 @@ void add_space(char **command)
 		if (!new_command)
 		{
 			perror("Failed to allocate memory");
-			exit(EXIT_FAILURE);
+			exit(1);
 		}
 
 		_strncpy(new_command, *command, cmd_len);

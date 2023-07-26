@@ -63,7 +63,7 @@ int execute_single_command(Command *command, char *path)
 	{
 		perror("Failed to fork");
 		free(path);
-		return (EXIT_FAILURE);
+		return (1);
 	}
 
 	if (pid == 0)
@@ -72,14 +72,13 @@ int execute_single_command(Command *command, char *path)
 		{
 			perror("Failed to execute command");
 			free(path);
-			exit(EXIT_FAILURE);
+			exit(1);
 		}
 	}
 	else
 	{
 		wait(&status);
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
+		status = status >> 8;
 
 		free(path);
 	}
