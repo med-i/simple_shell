@@ -13,19 +13,17 @@
 #include <unistd.h>
 
 #define PROMPT "$ "
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 10000
 #define DELIMITERS " \t\n\v\f\r"
 
 /**
  * struct Source - Describes the source of shell commands
  * @fd: File descriptor of the source
- * @stream: The file stream of the input source
  * @is_interactive: Boolean flag indicating if the session is interactive
  */
 typedef struct Source
 {
 	int fd;
-	FILE *stream;
 	bool is_interactive;
 } Source;
 

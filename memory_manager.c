@@ -10,9 +10,6 @@ void free_resources(Session *session)
 {
 	size_t i, j;
 
-	if (session->line)
-		free(session->line);
-
 	if (session->cmd_strs)
 	{
 		for (i = 0; session->cmd_strs[i]; ++i)
@@ -50,8 +47,8 @@ void free_resources(Session *session)
  */
 void close_source(int argc, Session *session)
 {
-	if (argc > 1 && fclose(session->source->stream) != 0)
-		perror("Failed to close stream");
+	if (argc > 1 && close(session->source->fd) == -1)
+		perror("Failed to close file descriptor");
 
 	free(session->source);
 }

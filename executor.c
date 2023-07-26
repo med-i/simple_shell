@@ -34,7 +34,7 @@ int execute_commands(Session *session)
 		else
 			status = handle_not_found(session->program_name, commands[i]->path);
 
-	next_command:
+next_command:
 		if (commands[i]->separator)
 		{
 			if ((!_strcmp(commands[i]->separator, "&&") && status != 0) ||
@@ -100,13 +100,13 @@ char *get_filepath(char *command)
 
 	path = _getenv("PATH");
 	if (!path)
-		return NULL;
+		return (NULL);
 
 	path_copy = _strdup(path);
 	if (!path_copy)
 	{
 		free(path);
-		return NULL;
+		return (NULL);
 	}
 
 	dir = _strtok(path_copy, ":");
@@ -127,7 +127,7 @@ char *get_filepath(char *command)
 
 	free(path_copy);
 	free(path);
-	return file_path;
+	return (file_path);
 }
 
 /**
