@@ -9,13 +9,17 @@
 int execute_commands(Session *session)
 {
 	Command **commands = session->commands;
-	char *path = NULL;
-	int status;
+	char *path = NULL, *last_separator = NULL;
+	int status = 0;
 	size_t i, j;
 	BuiltIn *built_ins = get_builtins();
 
-	for (i = 0; commands[i]; ++i)
+	for (i = 0; commands[i]; i++)
 	{
+		process_separators(session, last_separator, status, &i);
+		if (!commands[i])
+			break;
+
 		for (j = 0; built_ins[j].command; j++)
 		{
 			if (_strcmp(commands[i]->argv[0], built_ins[j].command) == 0)
@@ -36,15 +40,34 @@ int execute_commands(Session *session)
 			status = handle_not_found(session->program_name, commands[i]->path);
 
 next_command:
-		if (commands[i]->separator)
-		{
-			if ((!_strcmp(commands[i]->separator, "&&") && status != 0) ||
-			    (!_strcmp(commands[i]->separator, "||") && status == 0))
-				i++;
-		}
+		last_separator = commands[i]->separator;
 	}
 
 	return (status);
+}
+
+/**
+ * process_separators - Processes logical operators
+ * @session: The current shell session.
+ * @sep: The separator of the last executed command.
+ * @status: The exit status of the last executed command.
+ * @i: Pointer to the index of the current
+ */
+void process_separators(Session *session, char *sep, int status, size_t *i)
+{
+	Command **commands = session->commands;
+
+	while (sep)
+	{
+		if ((!_strcmp(sep, "&&") && status != 0) ||
+		    (!_strcmp(sep, "||") && status == 0))
+		{
+			sep = commands[*i]->separator;
+			(*i)++;
+		}
+		else
+			break;
+	}
 }
 
 /**

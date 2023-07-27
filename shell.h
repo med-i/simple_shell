@@ -104,6 +104,7 @@ Command *parse_single_command(Token *token);
 
 /* executor */
 int execute_commands(Session *session);
+void process_separators(Session *session, char *sep, int status, size_t *i);
 int execute_single_command(Command *command, char *path);
 char *get_filepath(char *command);
 int handle_not_found(char *program_name, char *path);
