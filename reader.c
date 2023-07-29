@@ -7,7 +7,7 @@
  *
  * Return: Pointer to a Source struct
  */
-Source *get_source(int argc, char **argv)
+Source *get_source(int argc, char **argv, Session *session)
 {
 	Source *source = malloc(sizeof(Source));
 
@@ -24,6 +24,7 @@ Source *get_source(int argc, char **argv)
 		{
 			print_no_file(argv[0], argv[1]);
 			free(source);
+			free(session);
 			exit(2);
 		}
 		source->is_interactive = false;

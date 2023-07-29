@@ -86,7 +86,7 @@ bool is_empty_line(Session *session);
 bool is_comment(Session *session);
 
 /* reader */
-Source *get_source(int argc, char **argv);
+Source *get_source(int argc, char **argv, Session *session);
 void print_no_file(char *program_name, char *filename);
 char *read_input(Session **session);
 ssize_t _getline(char **lineptr, size_t *n, int fd);

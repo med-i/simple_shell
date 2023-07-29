@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 
 	initialize_session(&session);
 	session->program_name = argv[0];
-	session->source = get_source(argc, argv);
+	session->source = get_source(argc, argv, session);
 
 	while (read_input(&session) != NULL)
 	{
